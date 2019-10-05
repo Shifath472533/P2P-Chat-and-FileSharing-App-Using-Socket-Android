@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">P2P Chat Appplication</string>
+    <string name="enter_the_message">enter_the_message</string>
+    <string name="send">send</string>
+</resources>
