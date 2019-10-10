@@ -13,7 +13,7 @@
         android:id="@+id/list_sent"
         android:visibility="gone"
         android:padding="8dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="50dp"
         />
     <TextView
         android:layout_width="match_parent"
@@ -24,6 +24,6 @@
         android:id="@+id/list_received"
         android:visibility="gone"
         android:padding="8dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="50dp"
         />
 </LinearLayout>

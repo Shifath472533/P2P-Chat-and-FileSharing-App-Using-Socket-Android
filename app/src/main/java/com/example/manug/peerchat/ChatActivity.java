@@ -101,7 +101,7 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
-    public class FileClient extends AsyncTask<Void,Void,String>{
+    public class FileServer extends AsyncTask<Void,Void,String>{
         FileInputStream fis = null;
         BufferedInputStream bis = null;
         OutputStream os = null;
