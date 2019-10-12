@@ -40,5 +40,14 @@
             android:onClick="sendResponse"
             android:background="@drawable/myshape"
             />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sendFileButton"
+            android:text="select"
+            android:onClick="selectFileResponse"
+            android:background="@drawable/myshape"
+            />
     </LinearLayout>
 </LinearLayout>

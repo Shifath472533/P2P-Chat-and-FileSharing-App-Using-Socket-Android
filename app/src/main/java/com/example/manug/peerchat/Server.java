@@ -54,7 +54,15 @@ public class Server extends Thread {
             return sentence ;
         }
         protected void onPostExecute(String result) {
+
+//            Log.d("problem", "onPostExecute:" + result);
             messageArray.add(new Message("Received: " + result, 1));
+
+//            for(Message mssg: messageArray){
+//                String sst = mssg.getMessage();
+//                Log.d("problem","received             "+sst);
+//            }
+
             messageList.setAdapter(mAdapter);
             Log.d("problem","Received: " + result);
             for(Message mssg: messageArray){

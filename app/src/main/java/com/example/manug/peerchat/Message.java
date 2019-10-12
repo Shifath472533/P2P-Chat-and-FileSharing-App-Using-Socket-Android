@@ -13,6 +13,7 @@ public class Message {
         return false;
     }
     public String getMessage(){
+
         return message;
     }
 }

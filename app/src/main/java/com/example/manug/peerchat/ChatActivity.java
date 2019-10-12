@@ -1,5 +1,6 @@
 package com.example.manug.peerchat;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ public class ChatActivity extends AppCompatActivity {
     ArrayList<Message> messageArray;
     EditText portText;
     int myport;
+    Intent fileManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,22 @@ public class ChatActivity extends AppCompatActivity {
         s.start();
     }
 
+    public void selectFileResponse(View view){
+        fileManager = new Intent(Intent.ACTION_GET_CONTENT);
+        fileManager.setType("*/*");
+        startActivityForResult(fileManager,10);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case 10:
+                if(resultCode==RESULT_OK){
+                    String path = data.getData().getPath();
+                    messageTextView.setText(path);
+                }
+        }
+    }
 
     public void sendResponse(View view){
         Client c =new Client();
