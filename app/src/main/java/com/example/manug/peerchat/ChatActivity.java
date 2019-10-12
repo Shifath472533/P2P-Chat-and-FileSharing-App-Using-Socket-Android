@@ -20,7 +20,6 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -56,16 +55,12 @@ public class ChatActivity extends AppCompatActivity {
             Log.d("info",ipAddress+" "+portNo+" "+myport);
         }
 
-        message_List = (ListView) findViewById(R.id.message_list);
+        message_List = findViewById(R.id.message_list);
         messageArray = new ArrayList<Message>();
         mAdapter = new MessageAdapter(this, messageArray);
         message_List.setAdapter(mAdapter);
         messageTextView= (EditText) findViewById(R.id.messageEditText);
         //message = messageTextView.getText().toString();
-        startServer();
-    }
-
-    void startServer(){
         Server s = new Server(message_List, messageArray, myport);
         s.start();
     }
@@ -102,15 +97,70 @@ public class ChatActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             messageArray.add(new Message("Sent: " + result, 0));
             message_List.setAdapter(mAdapter);
-
-            Log.d("problem","Sent: " + result);
-            for(Message mssg: messageArray){
-                String sst = mssg.getMessage();
-                //Log.d("problem","              "+sst);
-            }
-
             messageTextView.setText("");
         }
     }
 
+    public class FileClient extends AsyncTask<Void,Void,String>{
+        FileInputStream fis = null;
+        BufferedInputStream bis = null;
+        OutputStream os = null;
+        ServerSocket servsock = null;
+        Socket sock = null;
+        @Override
+        protected String doInBackground(Void... voids) {
+            String fileName = "Programming.pdf";
+            try {
+                int portr = Integer.parseInt(portNo);
+                servsock = new ServerSocket(portr);
+                while (true) {
+                    //System.out.println("Waiting...");
+                    Toast toast=Toast.makeText(getApplicationContext(),"Waiting...",Toast.LENGTH_LONG);
+                    toast.setMargin(50,50);
+                    toast.show();
+                    try {
+                        sock = servsock.accept();
+                        toast=Toast.makeText(getApplicationContext(),"Accepted connection : " + sock,Toast.LENGTH_LONG);
+                        toast.setMargin(50,50);
+                        toast.show();
+                        //System.out.println("Accepted connection : " + sock);
+                        // send file
+                        File myFile = new File (FILE_TO_SEND);
+                        byte [] mybytearray  = new byte [(int)myFile.length()];
+                        fis = new FileInputStream(myFile);
+                        bis = new BufferedInputStream(fis);
+                        bis.read(mybytearray,0,mybytearray.length);
+                        os = sock.getOutputStream();
+                        System.out.println("Sending " + FILE_TO_SEND + "(" + mybytearray.length + " bytes)");
+                        os.write(mybytearray,0,mybytearray.length);
+                        os.flush();
+                        System.out.println("Done.");
+                    }
+                    finally {
+                        if (bis != null) bis.close();
+                        if (os != null) os.close();
+                        if (sock!=null) sock.close();
+                    }
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (servsock != null) {
+                    try {
+                        servsock.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            return fileName;
+        }
+        protected void onPostExecute(String result) {
+            messageArray.add(new Message("Sent: " + result, 0));
+            message_List.setAdapter(mAdapter);
+
+        }
+    }
 }
