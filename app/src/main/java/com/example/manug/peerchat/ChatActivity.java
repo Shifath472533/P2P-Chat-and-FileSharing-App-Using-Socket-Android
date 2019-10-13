@@ -1,7 +1,9 @@
 package com.example.manug.peerchat;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +18,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -24,14 +27,14 @@ import java.util.ArrayList;
 
 public class ChatActivity extends AppCompatActivity {
 
-    public final static int SOCKET_PORT = 13267;
-    public final static String FILE_TO_SEND = "G:/Elements.of.Programming.pdf";
+    public String FILE_TO_SEND;
 
     String ipAddress,portNo;
     //public static String message="";
     EditText messageTextView;
     TextView responseTextView;
     static MessageAdapter mAdapter;
+    int fileSelected = 0;
     ListView message_List;
     ArrayList<Message> messageArray;
     EditText portText;
@@ -78,10 +81,20 @@ public class ChatActivity extends AppCompatActivity {
         switch (requestCode){
             case 10:
                 if(resultCode==RESULT_OK){
-                    String path = data.getData().getPath();
+                    Uri uri = data.getData();
+                    String path = getFilePathFromUri(uri);
+                    fileSelected = 1;
                     messageTextView.setText(path);
+                    FILE_TO_SEND = path;
+                    Log.d("problem", "onActivityResult: "+FILE_TO_SEND);
                 }
         }
+    }
+
+    private String getFilePathFromUri(Uri uri){
+        String path = uri.getPathSegments().get(1);
+        path = Environment.getExternalStorageDirectory().getPath()+"/"+path.split(":")[1];
+        return path;
     }
 
     public void sendResponse(View view){
@@ -94,18 +107,84 @@ public class ChatActivity extends AppCompatActivity {
         responseTextView.setText(str);
     }
     public class Client extends AsyncTask<Void,Void,String> {
-        String msg = messageTextView.getText().toString();;
+        String msg = messageTextView.getText().toString();
+        String path = FILE_TO_SEND;
+        public int isFile = fileSelected;
+
         @Override
         protected String doInBackground(Void... voids) {
+            Log.d("problem", "fileSelected = "+fileSelected);
             try {
-                String ipadd = ipAddress;
-                int portr = Integer.parseInt(portNo);
-                Socket clientSocket = new Socket(ipadd, portr);
-                OutputStream outToServer =clientSocket.getOutputStream();
-                PrintWriter output = new PrintWriter(outToServer);
-                output.println(msg);
-                output.flush();
-                clientSocket.close();
+                if(fileSelected == 0)
+                {
+                    String ipadd = ipAddress;
+                    //Log.d("problem", "ip add");
+
+                    int portr = Integer.parseInt(portNo);
+                    //Log.d("problem", "port");
+
+                    //Log.d("problem", "ip add "+ipadd+" "+portr);
+                    Socket clientSocket = new Socket(ipadd, portr);
+                    //Log.d("problem", "socket");
+                    Message message = new Message(msg, 0);
+
+                    Log.d("problem", "fileSelected = "+fileSelected);
+
+                    ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
+                    out.writeObject(message);
+                    out.flush();
+                    clientSocket.close();
+
+
+
+
+////                    String ipadd = ipAddress;
+////                    int portr = Integer.parseInt(portNo);
+////                    Socket clientSocket = new Socket(ipadd, portr);
+////                    OutputStream outToServer =clientSocket.getOutputStream();
+////                    PrintWriter output = new PrintWriter(outToServer);
+////                    output.println(msg);
+////                    output.flush();
+////                    clientSocket.close();
+                }
+                else if(fileSelected == 1)
+                {
+                    FileInputStream fis = null;
+                    BufferedInputStream bis = null;
+
+                    String ipadd = ipAddress;
+                    int portr = Integer.parseInt(portNo);
+                    Socket clientSocket = new Socket(ipadd, portr);
+
+                    Log.d("problem", "doInBackground: "+path);
+                    File myfile = new File(path);
+                    Log.d("problem", "doInBackground2222: "+myfile+"   "+FILE_TO_SEND);
+
+                    if(myfile.exists())
+                        //'ll add a toast here!!!
+                        Log.d("problem", "Exist:   Selected file exists");
+                    else
+                        //Here also !!!
+                        Log.d("problem", "Exist:   Selected file doesn't exists");
+
+                    byte [] mybytearray  = new byte [(int)myfile.length()];
+                    Log.d("byte", "doInBackground: "+mybytearray.length);
+//                    for(int i=0;i<mybytearray.length;i++){
+//                        Log.d("byte", "doInBackground: "+mybytearray[i]+" ");
+//                    }
+                    fis = new FileInputStream(myfile);
+                    bis = new BufferedInputStream(fis);
+                    bis.read(mybytearray,0,mybytearray.length);
+
+                    Message message = new Message(msg, mybytearray, 0);
+
+                    ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
+                    out.writeObject(message);
+                    out.flush();
+                    clientSocket.close();
+
+                }
+
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -114,71 +193,11 @@ public class ChatActivity extends AppCompatActivity {
         }
         protected void onPostExecute(String result) {
             messageArray.add(new Message("Sent: " + result, 0));
+            fileSelected=0;
+            Log.d("problem", "onPostExecute: "+result);
             message_List.setAdapter(mAdapter);
             messageTextView.setText("");
         }
     }
 
-    public class FileClient extends AsyncTask<Void,Void,String>{
-        FileInputStream fis = null;
-        BufferedInputStream bis = null;
-        OutputStream os = null;
-        ServerSocket servsock = null;
-        Socket sock = null;
-        @Override
-        protected String doInBackground(Void... voids) {
-            String fileName = "Programming.pdf";
-            try {
-                int portr = Integer.parseInt(portNo);
-                servsock = new ServerSocket(portr);
-                while (true) {
-                    //System.out.println("Waiting...");
-                    Toast toast=Toast.makeText(getApplicationContext(),"Waiting...",Toast.LENGTH_LONG);
-                    toast.setMargin(50,50);
-                    toast.show();
-                    try {
-                        sock = servsock.accept();
-                        toast=Toast.makeText(getApplicationContext(),"Accepted connection : " + sock,Toast.LENGTH_LONG);
-                        toast.setMargin(50,50);
-                        toast.show();
-                        //System.out.println("Accepted connection : " + sock);
-                        // send file
-                        File myFile = new File (FILE_TO_SEND);
-                        byte [] mybytearray  = new byte [(int)myFile.length()];
-                        fis = new FileInputStream(myFile);
-                        bis = new BufferedInputStream(fis);
-                        bis.read(mybytearray,0,mybytearray.length);
-                        os = sock.getOutputStream();
-                        System.out.println("Sending " + FILE_TO_SEND + "(" + mybytearray.length + " bytes)");
-                        os.write(mybytearray,0,mybytearray.length);
-                        os.flush();
-                        System.out.println("Done.");
-                    }
-                    finally {
-                        if (bis != null) bis.close();
-                        if (os != null) os.close();
-                        if (sock!=null) sock.close();
-                    }
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (servsock != null) {
-                    try {
-                        servsock.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            return fileName;
-        }
-        protected void onPostExecute(String result) {
-            messageArray.add(new Message("Sent: " + result, 0));
-            message_List.setAdapter(mAdapter);
-
-        }
-    }
 }

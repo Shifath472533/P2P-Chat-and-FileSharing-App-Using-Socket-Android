@@ -1,7 +1,28 @@
 package com.example.manug.peerchat;
-public class Message {
-    String message;
+
+import java.io.File;
+import java.io.Serializable;
+
+public class Message implements Serializable{
+    String message = null;
     int type;
+    int fileOrNot = 0;
+    byte [] mybytearray;
+
+    public boolean isFile(){
+        if(fileOrNot == 1)
+            return true;
+        else
+            return false;
+    }
+
+    public Message(String message, byte [] mybytearray, int type){
+        this.message=message;
+        this.mybytearray = mybytearray;
+        this.type = type;
+        fileOrNot = 1;
+    }
+
     public Message(String message,int type){
         this.message=message;
         this.type=type;
@@ -13,7 +34,10 @@ public class Message {
         return false;
     }
     public String getMessage(){
-
         return message;
+    }
+
+    public byte[] getMybytearray() {
+        return mybytearray;
     }
 }
