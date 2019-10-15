@@ -30,7 +30,7 @@ requires the port number of the server of other user.
 <h3> Extra Features: </h3>
   
   
-  1. The user can send <b>all types of files</b> using this app.
+  1. The user can send <b>all types of files including images,pdf,docs etc.</b> using this app.
   2. The user can send bangla text messages and emojis also.
 
 
