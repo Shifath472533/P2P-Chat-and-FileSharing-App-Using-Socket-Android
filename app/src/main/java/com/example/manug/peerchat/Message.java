@@ -7,7 +7,20 @@ public class Message implements Serializable{
     String message = null;
     int type;
     int fileOrNot = 0;
+
+    int bg = 0;
     byte [] mybytearray;
+
+    public void setBG(){
+        bg = 1;
+    }
+
+    public boolean isBackground(){
+        if(bg == 1)
+            return true;
+        else
+            return false;
+    }
 
     public boolean isFile(){
         if(fileOrNot == 1)
