@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FAF8F7"
+    android:background="@drawable/mainback"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -36,6 +36,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:background="#FFFFFF"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"

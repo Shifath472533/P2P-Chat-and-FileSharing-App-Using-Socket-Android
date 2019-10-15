@@ -28,6 +28,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -86,22 +87,12 @@ public class ChatActivity extends AppCompatActivity {
         messageTextView= (EditText) findViewById(R.id.messageEditText);
         //message = messageTextView.getText().toString();
         chatActivityLayout = findViewById(R.id.chatActivityView);
+
+        message_List.setBackgroundResource(R.drawable.background);
+
+
         Server s = new Server(message_List, messageArray, myport, this);
         s.start();
-    }
-
-    public void changeBGColor(){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if(bgColorCode.equals("@@bg1")){
-                    chatActivityLayout.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
-                }
-                else if(bgColorCode.equals("@@bg2")){
-                    chatActivityLayout.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
-                }
-            }
-        });
     }
 
 
@@ -124,15 +115,11 @@ public class ChatActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.saveMessageid){
 
             Toast.makeText(getApplicationContext(), "Save Message Selected", Toast.LENGTH_SHORT).show();
+            saveMessage();
 
             return true;
         }
-        if(item.getItemId() == R.id.sendFileid){
 
-            Toast.makeText(getApplicationContext(), "Send File Selected", Toast.LENGTH_SHORT).show();
-
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -145,8 +132,7 @@ public class ChatActivity extends AppCompatActivity {
         Button btn2= (Button) mView.findViewById(R.id.btn2);
         Button btn3= (Button) mView.findViewById(R.id.btn3);
         Button btn4= (Button) mView.findViewById(R.id.btn4);
-        Button btn5= (Button) mView.findViewById(R.id.btn5);
-        Button btn6= (Button) mView.findViewById(R.id.btn6);
+
 
         alert.setView(mView);
 
@@ -157,8 +143,7 @@ public class ChatActivity extends AppCompatActivity {
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ChatActivity.this, "Cancelled", Toast.LENGTH_SHORT).show();
-
+                //Toast.makeText(ChatActivity.this, "Cancelled", Toast.LENGTH_SHORT).show();
                 bgselected = 1;
                 alertDialog.dismiss();
             }
@@ -167,10 +152,10 @@ public class ChatActivity extends AppCompatActivity {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ChatActivity.this, "to send message", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChatActivity.this, "Background Changed", Toast.LENGTH_SHORT).show();
                 BGID = 1;
                 bgselected = 1;
-                message_List.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
+                message_List.setBackgroundResource(R.drawable.background1);
                 changeBG();
                 alertDialog.dismiss();
             }
@@ -179,10 +164,10 @@ public class ChatActivity extends AppCompatActivity {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ChatActivity.this, "to send message", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChatActivity.this, "Background Changed", Toast.LENGTH_SHORT).show();
                 bgselected = 1;
                 BGID = 2;
-                message_List.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
+                message_List.setBackgroundResource(R.drawable.background2);
                 changeBG();
                 alertDialog.dismiss();
             }
@@ -191,8 +176,11 @@ public class ChatActivity extends AppCompatActivity {
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ChatActivity.this, "to send message", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChatActivity.this, "Background Changed", Toast.LENGTH_SHORT).show();
                 bgselected = 1;
+                BGID = 3;
+                message_List.setBackgroundResource(R.drawable.background3);
+                changeBG();
                 alertDialog.dismiss();
             }
         });
@@ -200,26 +188,10 @@ public class ChatActivity extends AppCompatActivity {
         btn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ChatActivity.this, "to send message", Toast.LENGTH_SHORT).show();
                 bgselected = 1;
-                alertDialog.dismiss();
-            }
-        });
-
-        btn5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(ChatActivity.this, "to send message", Toast.LENGTH_SHORT).show();
-                bgselected = 1;
-                alertDialog.dismiss();
-            }
-        });
-
-        btn6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(ChatActivity.this, "to send message", Toast.LENGTH_SHORT).show();
-                bgselected = 1;
+                BGID = 4;
+                message_List.setBackgroundResource(R.drawable.background4);
+                changeBG();
                 alertDialog.dismiss();
             }
         });
@@ -308,6 +280,12 @@ public class ChatActivity extends AppCompatActivity {
                     }
                     if(BGID == 2){
                         msg = "@@bg2";
+                    }
+                    if(BGID == 3){
+                        msg = "@@bg3";
+                    }
+                    if(BGID == 4){
+                        msg = "@@bg4";
                     }
 
                     String ipadd = ipAddress;
@@ -432,13 +410,73 @@ public class ChatActivity extends AppCompatActivity {
 
                 Log.d("background", "message = "+msg.getMessage());
 
-                if(msg.getMessage().equals("@@bg1")) {
-                    Log.d("BACKGROUND", "setMessage: ");
-                    message_List.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
+        if(msg.getMessage().equals("@@bg1")) {
+            Log.d("BACKGROUND", "setMessage: ");
+            //message_List.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
+            message_List.setBackgroundResource(R.drawable.background1);
+        }
+        else if(msg.getMessage().equals("@@bg2")) {
+            message_List.setBackgroundResource(R.drawable.background2);
+        }
+        else if(msg.getMessage().equals("@@bg3")) {
+            message_List.setBackgroundResource(R.drawable.background3);
+        }
+        else if(msg.getMessage().equals("@@bg4")) {
+            message_List.setBackgroundResource(R.drawable.background4);
+        }
+
+    }
+
+    public void saveMessage(){
+        Log.d("save", "message save = ");
+
+        String FILE_TO_SAVE;
+
+        FILE_TO_SAVE = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+File.separator+"P2P-Chat-And-File-Sharing-App"+File.separator+"Saved_Messages";
+        Log.d("problem", "doInBackground: "+FILE_TO_SAVE);
+        File directory = new File(FILE_TO_SAVE);
+        if(!directory.exists()){
+            directory.mkdirs();
+        }
+        FILE_TO_SAVE += File.separator+ipAddress+".txt";
+
+//        File root = this.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+//        File dir = new File(root.getAbsolutePath() +File.separator+ "download");
+//        dir.mkdirs();
+//        String kk=File.separator+ipAddress+".txt";
+
+        File file = new File(FILE_TO_SAVE);
+        try {
+            FileOutputStream f = new FileOutputStream(file);
+            PrintWriter pw = new PrintWriter(f);
+            for(Message message: messageArray){
+
+                String s = "";
+                if(message.isSent()){
+
+                    s += "1:";
                 }
-                else if(msg.getMessage().equals("@@bg2")) {
-                    message_List.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
+                else {
+                    s += "2:";
                 }
+
+                s += message.getMessage();
+                Log.d("save", "message = " + s);
+                pw.println(s);
+                Log.d("save", "After PrintWriter = " + s);
+            }
+            pw.flush();
+            pw.close();
+            f.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Log.e("save", "File not found");
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.i("save", "I/O exception");
+        }
+        String stored="Saved messages stored in "+FILE_TO_SAVE;
+        Toast.makeText(this, stored, Toast.LENGTH_LONG).show();
 
     }
 

@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/shapesent"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:textColor="#FFFFFF"
         android:id="@+id/list_sent"
         android:visibility="gone"
         android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginLeft="50dp"
         />
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/shapereceived"
-        android:textSize="24sp"
-        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textColor="#000000"
         android:id="@+id/list_received"
         android:visibility="gone"
         android:padding="8dp"
-        android:layout_marginRight="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         />
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

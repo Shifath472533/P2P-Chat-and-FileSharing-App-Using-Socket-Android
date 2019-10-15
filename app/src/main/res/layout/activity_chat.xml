@@ -16,13 +16,17 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_weight="9.5"
+        android:layout_weight="9.8"
+        android:divider="@null"
         android:id="@+id/message_list"
-        android:background="#FFFFFF">
+        android:background="#9FFFFFFF">
     </ListView>
 
     <LinearLayout
         android:id="@+id/bottomid"
+
+
+        android:background="#9EFFFFFF"
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,15 +35,25 @@
 
         >
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:hint="@string/enter_the_message"
-            android:id="@+id/messageEditText"
+        <ImageButton
+            android:layout_width="51dp"
+            android:layout_height="63dp"
+            android:layout_marginBottom="12dp"
+            android:background="#00FFFFFF"
+            android:onClick="selectFileResponse"
+            android:src="@drawable/ic_attach_file_black_24dp" />
 
+        <EditText
+            android:id="@+id/messageEditText"
+            android:layout_width="300dp"
+            android:layout_height="54dp"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            />
+            android:background="@drawable/edittext"
+            android:hint="@string/enter_the_message"
+
+            android:textAlignment="center" />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,13 +63,5 @@
             android:background="@drawable/myshape"
             />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/sendFileButton"
-            android:text="select"
-            android:onClick="selectFileResponse"
-            android:background="@drawable/myshape"
-            />
     </LinearLayout>
 </LinearLayout>
