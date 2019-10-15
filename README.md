@@ -35,3 +35,4 @@ requires the port number of the server of other user.
 
 
 <h3> Contributions: </h3>
+Both contributed in project equally and supervised all parts and have clear knowledge about it.
