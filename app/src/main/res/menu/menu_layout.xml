@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/saveMessageid"
+        android:title="Save Message"
+        app:showAsAction="never"
+
+        />
+
+    <item
+        android:id="@+id/changeBackgroundid"
+        android:title="Change Background"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/sendFileid"
+        android:title="Send File"
+        app:showAsAction="never"
+        />
+
+</menu>
