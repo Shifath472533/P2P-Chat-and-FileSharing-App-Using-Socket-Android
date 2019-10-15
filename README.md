@@ -6,31 +6,24 @@ A peer to peer chat & File Sharing app using Sockets in Android.
 
 <h2> Peer to Peer chat and file sharing system using Socket Programming </h2>
 
-<h3> Features: </h3>
+<h3> Basic Features: </h3>
 
 
-1. As it is a peer to peer chatting and file sharing application, we decided to create both server and client features each 
+1. This is a peer to peer chatting and file sharing application, we decided to create both server and client features each 
    side.
   
-2. In the application, there is an portion <b> Your IP Address </b> where you can see your ip address. Basically it is the 
-   address your router gave to you. There are 4 other options which you have to fill. 
+2. In the application, there is an portion <b> Your IP Address </b> where the user can see his/her device's ip address. 
+   Basically it is the address the connected router gave to the device. There are 3 options also which the user have to fill. 
 
-3. <b> Your Port No. </b> requires the port number of your server that you want others to connect to your server. <b> Receiver's
-   IP Address </b> requires the ip address of the other person. <b> Receiver's Port No. </b> requires the port number of the 
-   server of other person s/he wants you to connect. In <b> Your Name </b>, you can give your name.
+3. <b> Your Port No. </b> requires the port number of user's server where s/he want others to connect. Then <b> Receiver's
+   IP Address </b> requires the ip address of the other user with whom the user want to connect. <b> Receiver's Port No. </b> 
+   requires the port number of the server of other person s/he wants you to connect.
 
-4. By clicking the <b> Connect </b> button, a pop up will occur. That will ask foe storage permission. It will occur only once.
-   You have to permit for storage.
+4. By clicking the <b> Connect </b> button, user will move to the chat and file sharing portion where the server of user side will start      to connect to a client user on the other end and client will send request to connect to the other user's server. If other user also        click connect button then both  the server and client will be connected to each other by given port number. And then they can              start chatting and file sharing.
 
-5. Now you will enter in the chat section. If you can connect to your port, you can see that on the upper part of the page, a 
-   green line showing your ip address and port. If you can't then you will see a red line showing socket initialization failure 
-   because the port is busy in other application. 
+5. In the chatting and file sharing section the users can type message and send it by clicking the <b>send</b> button.
   
-6. In the chat setion, there is a portion in the bottom to write messages. We used a listview to show the exchanged messages.
-   There are two buttons. One on the left to select files and send. The other on the right to send messages. You can send any 
-   type of message (any font or character or emojis). You can also send any type of files. The more the file size, the more time
-   it takes to send and receive.
-  
-7. There is a <b> Menu </b> button on the top right corner. There is an option <b> Change Background Color </b> using which one
-   can change the background of both user. Whenever a user leave the application, the current chat is being saved. All these
-   saved files and the files that are received from other user is located in /Android/obb/com.example.p2pchatandfiletransfer .
+6. By clicking the <b> File chooser Button</b> user can select files from file manager and send it to other user. The received file is        saved in the <b>"P2P-Chat-And-File-Sharing-App"</b> folder in <b>Download</b> folder of <b>Internal storage of phone</b>  <b>(For that    the must give permission of storage in his/her device"</b> .
+
+7. There is a <b> Menu </b> button on the top right corner. There are 2 options <b> Change Background </b> using which user
+   can change the background of both user and <b>Save Message</b> by which user can save the conversation with other user. The                conversation will be saved in <b>"Saved_Messages"</b> folder inthe <b>"P2P-Chat-And-File-Sharing-App"</b> folder in <b>Download</b>        folder of <b>Internal storage of phone</b>  <b>(For that user must give permission of storage in his/her device"</b>.
