@@ -51,17 +51,16 @@
             android:layout_weight="1"
             android:background="@drawable/edittext"
             android:hint="@string/enter_the_message"
-
-            android:textAlignment="center" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/sendButton"
-            android:text="@string/send"
-            android:onClick="sendResponse"
-            android:background="@drawable/myshape"
             />
+
+
+        <ImageButton
+            android:layout_width="51dp"
+            android:layout_height="63dp"
+            android:layout_marginBottom="12dp"
+            android:background="#00FFFFFF"
+            android:onClick="sendResponse"
+            android:src="@drawable/ic_send_black_24dp" />
 
     </LinearLayout>
 </LinearLayout>
