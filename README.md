@@ -3,7 +3,7 @@ A peer to peer chat & File Sharing application using Sockets in Android.
 
 # Description
 
-<h2> Peer to Peer chat and file sharing aplication using Socket Programming in Android </h2>
+<h2> Peer to Peer chat and file sharing aplication using Android Socket Programming</h2>
 
 <h3> Basic Features: </h3>
 
