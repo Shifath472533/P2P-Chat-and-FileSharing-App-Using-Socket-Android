@@ -1,4 +1,4 @@
-# P2P-Chat-and-FileSharing-App-Using-Socket-Android
+# P2P Chat and File Sharing App Using Android Socket
 A peer to peer chat & File Sharing application using Sockets in Android.
 
 # Description
